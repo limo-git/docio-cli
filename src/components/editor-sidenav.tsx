@@ -52,19 +52,19 @@ const Sidebar: React.FC<SidebarProps> = ({ onFileSelect, onSave }) => {
   return (
     <aside
       id="logo-sidebar"
-      className="sticky top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform -translate-x-full bg-white border-gray-200 sm:translate-x-0 dark:bg-[#171717]"
+      className="sticky top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform -translate-x-full border-gray-200 sm:translate-x-0 bg-black"
       aria-label="Sidebar"
     >
-      <div className="h-full px-3 pb-4 overflow-y-auto bg-white dark:bg-[#171717]">
+      <div className="h-full pb-4 px-2 overflow-y-auto bg-black text-white flex flex-col justify-between">
         <ul className="space-y-2 font-medium">
           {creatingNewFile ? (
-            <li className="flex items-center space-x-2">
+            <li className="flex items-center">
               <input
                 type="text"
                 value={newFileName}
                 onChange={handleNameChange}
                 onKeyPress={handleKeyPress}
-                className="p-2 border bg-black text-white border-gray-300 rounded-lg outline-none"
+                className="p-2 w-[95%] border bg-black rounded-xl text-white border-grey opacity-70 outline-none"
                 placeholder="Enter file name"
               />
             </li>
@@ -72,11 +72,11 @@ const Sidebar: React.FC<SidebarProps> = ({ onFileSelect, onSave }) => {
             <li>
               <a
                 href="#"
-                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-white/10 group"
+                className="flex items-center p-2 rounded-lg text-white group"
                 onClick={handleCreateNew}
               >
                 <div>
-                  <span className="ms-3">Create New File</span>
+                  <span className="px-8 py-2 rounded-md border border-black rounded-xl bg-white text-black text-sm hover:shadow-[4px_4px_0px_0px_rgba(0,0,0)] transition duration-200" >Create New File</span>
                   <div></div>
                 </div>
               </a>
@@ -87,14 +87,14 @@ const Sidebar: React.FC<SidebarProps> = ({ onFileSelect, onSave }) => {
             <li key={index} className="relative group">
               <a
                 href={`#${fileName}`}
-                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-white/10 group"
+                className="flex items-center p-2 rounded-lg text-white group"
                 onClick={() => onFileSelect(fileName)}
               >
                 <div className="flex">
                   <span className="ms-3 font-normal">{fileName}</span>
                   <button
                     onClick={() => handleDeleteFile(fileName)}
-                    className="absolute right-2 p-1 text-white bg-red-500 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity"
+                    className="absolute right-2 p-1 text-white bg-red-500 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity"
                   >
                     <div className="flex justify-center items-center">
                       <img
@@ -109,16 +109,15 @@ const Sidebar: React.FC<SidebarProps> = ({ onFileSelect, onSave }) => {
               </a>
             </li>
           ))}
-
-          <li>
-            <button
-              onClick={onSave}
-              className="w-full p-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600"
-            >
-              Save
-            </button>
-          </li>
         </ul>
+        <div className="pt-4">
+          <button
+            className="w-full px-8 py-2 rounded-md border border-black rounded-xl bg-white text-black text-sm hover:shadow-[4px_4px_0px_0px_rgba(0,0,0)] transition duration-200"
+            onClick={onSave}
+          >
+            Save
+          </button>
+        </div>
       </div>
     </aside>
   );

@@ -12,11 +12,11 @@ const introNav: React.FC<NavbarProps> = ({ markdownContent }) => {
   const headings: Heading[] = parseMarkdownHeadings(markdownContent);
 
   return (
-    <nav className="navbar">
-      <ul>
+    <nav className="navbar text-left ">
+      <ul className=''>
         {headings.map((heading) => (
           <li key={heading.id}>
-            <a href={`#${heading.id}`}>{heading.title}</a>
+            <a href={`${heading.id}`}>{heading.title}</a>
           </li>
         ))}
       </ul>

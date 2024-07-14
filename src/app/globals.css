@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -54,11 +55,12 @@ body {
   display:flex;
   justify-content:flex-end;
   height:full;
+  
 }
 
 .editor-toolbar {
-  background:#242424 !important;
-  
+  background:black !important;
+  border-color:grey !important;
 }
 .editor-toolbar button:hover {
   background:#303030 !important;
@@ -67,4 +69,11 @@ body {
 .editor-toolbar button:active {
   background:#303030 !important;
   
+  
+}
+
+.EasyMDEContainer .CodeMirror {
+  background:black;
+  color:white;
+  border-color:grey !important;
 }

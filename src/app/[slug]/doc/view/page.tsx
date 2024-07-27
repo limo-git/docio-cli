@@ -1,12 +1,12 @@
   "use client"
   import React, { FC, useEffect, useState } from 'react';
-  import { allDocs } from '../../../../.contentlayer/generated';
+  import { allDocs } from '../../../../../.contentlayer/generated';
   import { notFound } from 'next/navigation';
-  import { Mdx } from '../../../components/mdx-components';
-  import { DocsSidebarNav, DocsSidebarNavItems } from '../../../components/sidebar-nav';
-  import { SidebarNavItem } from '../../../types/index.s';
-  import IntroNav from '../../../components/intronav';
-  import { parseMarkdownHeadings } from '../../../lib/parseHeading';
+  import { Mdx } from '../../../../components/mdx-components';
+  import { DocsSidebarNav, DocsSidebarNavItems } from '../../../../components/sidebar-nav';
+  import { SidebarNavItem } from '../../../../types/index.s';
+  import IntroNav from '../../../../components/intronav';
+  import { parseMarkdownHeadings } from '../../../../lib/parseHeading';
   import Navbar from '@/components/navbar';
 
   interface PageProps {

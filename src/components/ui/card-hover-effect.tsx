@@ -1,11 +1,12 @@
-"use client"
+"use client";
+
 import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "framer-motion";
-import Link from "next/link";
 import { useState } from "react";
 
 export const HoverEffect = ({
   items,
+  onCardClick,
   className,
 }: {
   items: {
@@ -13,6 +14,7 @@ export const HoverEffect = ({
     description: string;
     link: string;
   }[];
+  onCardClick: (item: { title: string; description: string; link: string }) => void;
   className?: string;
 }) => {
   let [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
@@ -25,12 +27,12 @@ export const HoverEffect = ({
       )}
     >
       {items.map((item, idx) => (
-        <Link
-          href={item?.link}
-          key={item?.link}
-          className="relative group  block p-2 h-full w-full"
+        <div
+          key={item.link}
+          className="relative group block p-2 h-full w-full cursor-pointer"
           onMouseEnter={() => setHoveredIndex(idx)}
           onMouseLeave={() => setHoveredIndex(null)}
+          onClick={() => onCardClick(item)}
         >
           <AnimatePresence>
             {hoveredIndex === idx && (
@@ -53,7 +55,7 @@ export const HoverEffect = ({
             <CardTitle>{item.title}</CardTitle>
             <CardDescription>{item.description}</CardDescription>
           </Card>
-        </Link>
+        </div>
       ))}
     </div>
   );
@@ -79,6 +81,7 @@ export const Card = ({
     </div>
   );
 };
+
 export const CardTitle = ({
   className,
   children,
@@ -92,6 +95,7 @@ export const CardTitle = ({
     </h4>
   );
 };
+
 export const CardDescription = ({
   className,
   children,

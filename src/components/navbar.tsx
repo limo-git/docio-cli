@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 
 const Navbar: React.FC = () => {
   return (
@@ -30,9 +31,10 @@ const Navbar: React.FC = () => {
             </button>
             <a className="flex ms-2 md:me-24">
               
-              <span className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">
+             <Link href="/"> <span  className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">
                 Doc.io
               </span>
+              </Link>
             </a>
           </div>
           <div className="flex items-center">

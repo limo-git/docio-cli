@@ -4,7 +4,7 @@
 // import axios from "axios";
 // import { Reveal } from '@/components/reveal';
 // import Layout from '../components/layout';
-// import { Cardgrid } from '@/components/card';
+// 
 // import { CreateDocumentationDialog } from '@/components/createDialog';
 // import { EditViewDialog } from '@/components/viewDialog';
 // import { useSession } from "next-auth/react";
@@ -87,15 +87,34 @@
 // };
 
 // export default Home;
-
 "use client"
-import { useSession } from 'next-auth/react';
+import React from 'react';
+import { useSession, signIn, signOut } from 'next-auth/react';
+import Dashboard from './dashboard/page';
 
-
-export default function TestComponent() {
+const TestSessionComponent: React.FC = () => {
   const { data: session, status } = useSession();
 
-  console.log('Session:', session);
-  console.log('Status:', status); // 'loading' or 'authenticated'
-return ( <div>Authenticated</div>)
+  if (status === 'loading') {
+    return <p>Loading...</p>;
+  }
+
+  if (!session) {
+    return (
+      <div>
+        <p>Not signed in</p>
+        <button onClick={() => signIn()}>Sign In</button>
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      <Dashboard/>
+      <button onClick={() => signOut()}>Sign Out</button>
+    </div>
+  );
 };
+
+export default TestSessionComponent;
+

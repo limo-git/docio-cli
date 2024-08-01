@@ -18,44 +18,31 @@ interface CreateDocumentationDialogProps {
 }
 
 export function CreateDocumentationDialog({ addProject }: CreateDocumentationDialogProps) {
-  // Use the useSession hook to get session data
   const { data: session } = useSession();
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
 
-  // Function to handle saving the new documentation
   const handleSave = async () => {
-    console.log('handleSave called');
-
-    // Ensure both title and description are provided
     if (title.trim() && description.trim()) {
-      // Sanitize title to create a URL-friendly link
       const sanitizedTitle = title.trim().toLowerCase().replace(/\s+/g, '-');
       const link = `/doc/${sanitizedTitle}`;
 
       try {
-        console.log('Session data:', session);
-
-        // Check if the user is authenticated
-        if (!session?.user?._id) {
+        // Ensure session exists and get the email
+        const email = session?.user?.email;
+        if (!email) {
           throw new Error('User not authenticated');
         }
 
-        // Make API request to save the new documentation
         const response = await axios.post('/api/projects/add', {
           title,
           description,
           link,
-          userId: session.user._id,
+          email,
         });
 
-        // Get the new project from the response
         const newProject = response.data;
-
-        // Add the new project to the parent component
         addProject(newProject);
-
-        // Clear the form fields
         setTitle('');
         setDescription('');
       } catch (error) {

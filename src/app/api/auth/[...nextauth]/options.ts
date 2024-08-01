@@ -1,14 +1,14 @@
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { NextAuthOptions } from 'next-auth';
-import bcrypt from "bcryptjs";
+import bcrypt from 'bcryptjs';
 import { connect } from '@/dbConfig/dbConfig';
 import userModel from '@/models/userModel';
 
 // NextAuth configuration
 export const authOptions: NextAuthOptions = {
   providers: [
-    // Configure the credentials provider
+
     CredentialsProvider({
       credentials: {
         email: { label: 'Email', type: 'text' },
@@ -20,17 +20,21 @@ export const authOptions: NextAuthOptions = {
         try {
           const user = await userModel.findOne({
             $or: [
-              { email: credentials.identifier },
-              { username: credentials.identifier }
+              { email: credentials.email },
+              { username: credentials.email }
+              
+              
             ]
-          });
+          }).select('password _id email username projects');
           console.log("User found:", user);
           if (!user) {
             throw new Error("No user found");
           }
           const isPasswordCorrect = await bcrypt.compare(credentials.password, user.password);
           if (isPasswordCorrect) {
-            return user;
+            const userObject = user.toObject();
+            delete userObject.password;
+            return userObject;
           } else {
             throw new Error("Incorrect password");
           }
@@ -41,33 +45,11 @@ export const authOptions: NextAuthOptions = {
       }
     })
   ],
-  callbacks: {
-    async jwt({ token, user , session}) {
-      console.log("JWT callback called with token:", token, "and user:", user , "and session",session);
-      if (user) {
-        token._id = user._id?.toString();
-        token.isVerified = user.isVerified;
-        token.isAcceptingMessages = user.isAcceptingMessages;
-        token.username = user.username;
-      }
-      return token;
-    },
-
-    async session({ session, token , user }) {
-      console.log("Session callback called with session:", session, "and token:", token , "and user" , user);
-      if (token) {
-        session.user._id = token._id;
-        session.user.isVerified = token.isVerified;
-        session.user.isAcceptingMessages = token.isAcceptingMessages;
-        session.user.username = token.username;
-      }
-      return session;
-    }
-  },
+  
   session: {
-    strategy: "jwt"
+    strategy: 'jwt'
   },
   secret: process.env.NEXTAUTH_SECRET
-}
+};
 
 export default NextAuth(authOptions);

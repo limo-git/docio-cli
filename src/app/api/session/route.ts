@@ -4,6 +4,7 @@ import { authOptions } from '@/app/api/auth/[...nextauth]/options'; // Import yo
 
 export async function GET(req: NextRequest) {
   const session = await getServerSession(authOptions);
+  console.log(session)
 
   if (session) {
     return NextResponse.json({ message: 'Authenticated', session });

@@ -3,24 +3,24 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Reveal } from '@/components/reveal';
-import Layout from '../../components/layout';
+import Layout from '@/components/layout';
 import { Cardgrid } from '@/components/card';
 import { CreateDocumentationDialog } from '@/components/createDialog';
 import { EditViewDialog } from '@/components/viewDialog';
 import { useSession } from "next-auth/react";
 
-const Home: React.FC = () => {
+const Dashboard: React.FC = () => {
   const { data: session, status } = useSession();
-  const [projects, setProjects] = useState<{ title: string; description: string; link: string; userId:string }[]>([]);
+  const [projects, setProjects] = useState<{ title: string; description: string; link: string }[]>([]);
   const [selectedProject, setSelectedProject] = useState<{ title: string; description: string; link: string } | null>(null);
-  
+
   useEffect(() => {
     const fetchProjects = async () => {
-      if (status === "authenticated" && session?.user?._id) {
+      if (status === "authenticated" && session?.user?.email) {
         try {
           const res = await axios.get(`/api/projects`, {
             headers: {
-              'user-id': session.user._id,
+              'user-email': session.user.email,
             },
           });
           setProjects(res.data); 
@@ -34,13 +34,11 @@ const Home: React.FC = () => {
   }, [session, status]);
 
   const addProject = async (project: { title: string; description: string; link: string }) => {
-    const { data: session } = useSession(); 
-  
-    if (session?.user?._id) {
+    if (session?.user?.email) {
       try {
         const response = await axios.post("/api/projects/add", {
           ...project,
-          userId: session.user._id,
+          email: session.user.email,
         });
         setProjects((prevProjects) => [...prevProjects, response.data]);
       } catch (error) {
@@ -93,4 +91,4 @@ const Home: React.FC = () => {
   );
 };
 
-export default Home;
+export default Dashboard;

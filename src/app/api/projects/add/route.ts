@@ -1,19 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server';
 import User from '@/models/userModel';
-import {connect} from '@/dbConfig/dbConfig';
-import { getServerSession } from 'next-auth';
+import { connect } from '@/dbConfig/dbConfig';
 
 export async function POST(req: NextRequest) {
   try {
     await connect();
 
-    const { title, description, link, userId } = await req.json();
+    const { title, description, link, email } = await req.json();
 
-    if (!title || !description || !link || !userId) {
+    if (!title || !description || !link || !email) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
-    const user = await User.findById(userId);
+    const user = await User.findOne({ email });
     if (!user) {
       return NextResponse.json({ error: 'User not found' }, { status: 404 });
     }

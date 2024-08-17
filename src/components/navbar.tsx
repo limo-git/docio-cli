@@ -6,7 +6,7 @@ const Navbar: React.FC = () => {
     <nav className="fixed top-0 z-50 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
       <div className="px-3 py-3 lg:px-5 lg:pl-3 bg-black">
         <div className="flex items-center justify-between">
-          <div className="flex items-center justify-start rtl:justify-end">
+          <div className="flex items-center justify-start rtl:justify-end px-52">
             <button
               data-drawer-target="logo-sidebar"
               data-drawer-toggle="logo-sidebar"
@@ -38,7 +38,7 @@ const Navbar: React.FC = () => {
             </a>
           </div>
           <div className="flex items-center">
-            <div className="flex items-center ms-3">
+            <div className="flex items-center px-[23  rem]">
               <div>
                 <button
                   type="button"
@@ -46,7 +46,7 @@ const Navbar: React.FC = () => {
                   aria-expanded="false"
                   data-dropdown-toggle="dropdown-user"
                 > 
-                  <span className="sr-only">Open user menu</span>
+
                   <img
                     className="w-8 h-8 rounded-full"
                     src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"

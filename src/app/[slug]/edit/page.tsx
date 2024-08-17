@@ -77,7 +77,7 @@ const MyComponent: React.FC = () => {
   return (
     <div>
       <div className="flex justify-end">
-        <Sidebar onFileSelect={handleFileSelect} onSave={handleSaveFile} />
+        <Sidebar onFileSelect={handleFileSelect} onSave={handleSaveFile} /> 
         <div className="w-full bg-black border border-white/20">
           <textarea ref={textAreaRef}></textarea>
         </div>

@@ -1,14 +1,14 @@
   "use client"
   import React, { FC, useEffect, useState } from 'react';
-  import { allDocs } from '../../../../../.contentlayer/generated';
+  import { allDocs } from '../../../../../../.contentlayer/generated';
   import { notFound } from 'next/navigation';
-  import { Mdx } from '../../../../components/mdx-components';
-  import { DocsSidebarNav, DocsSidebarNavItems } from '../../../../components/sidebar-nav';
-  import { SidebarNavItem } from '../../../../types/index.s';
-  import IntroNav from '../../../../components/intronav';
-  import { parseMarkdownHeadings } from '../../../../lib/parseHeading';
+  import { Mdx } from '../../../../../components/mdx-components';
+  import { DocsSidebarNav, DocsSidebarNavItems } from '../../../../../components/sidebar-nav';
+  import { SidebarNavItem } from '../../../../../types/index.s';
+  import IntroNav from '../../../../../components/intronav';
+  import { parseMarkdownHeadings } from '../../../../../lib/parseHeading';
   import Navbar from '@/components/navbar';
-
+  import SidebarLayout from '@/components/sidebar-layout';
   interface PageProps {
     params: {
       slug: string;
@@ -71,11 +71,11 @@
 
     return (
       <main className="">
-        <Navbar/>
+        <SidebarLayout>
         <div className="sidebar">
           <IntroNav markdownContent={markdownContent} />
           <div>
-            <div style={{ background: "black", width: "18%", height: "100%", position: "fixed", top: "10%",paddingLeft:"16rem",}}>
+            <div style={{ background: "black", width: "10%", height: "100%", position: "fixed", top: "10%",}}>
               <DocsSidebarNav items={sidebarItems} />
             </div>
           </div>
@@ -86,6 +86,7 @@
         <div className='head' style={{ position: "fixed", top: "10%", left: "85%", background: "", width: "15%", height: "15%", borderRadius: "5%" }}>
           <DocsSidebarNavItems items={sidebarHead} pathname="hello" />
         </div>
+        </SidebarLayout>
       </main>
     );
   };

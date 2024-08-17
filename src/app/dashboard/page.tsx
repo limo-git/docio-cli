@@ -1,5 +1,5 @@
-"use client";
-
+"use client"
+import SidebarLayout from "@/components/sidebar-layout";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Reveal } from '@/components/reveal';
@@ -9,8 +9,9 @@ import { CreateDocumentationDialog } from '@/components/createDialog';
 import { EditViewDialog } from '@/components/viewDialog';
 import { useSession } from "next-auth/react";
 
-const Dashboard: React.FC = () => {
-  const { data: session, status } = useSession();
+
+export default function DashboardPage() {
+    const { data: session, status } = useSession();
   const [projects, setProjects] = useState<{ title: string; description: string; link: string }[]>([]);
   const [selectedProject, setSelectedProject] = useState<{ title: string; description: string; link: string } | null>(null);
 
@@ -19,8 +20,8 @@ const Dashboard: React.FC = () => {
       if (status === "authenticated" && session?.user?.email) {
         try {
           const res = await axios.get(`/api/projects`, {
-            headers: {
-              'user-email': session.user.email,
+            params: {
+              email: session.user.email, 
             },
           });
           setProjects(res.data); 
@@ -68,9 +69,8 @@ const Dashboard: React.FC = () => {
   };
 
   return (
-    <div>
-      <Layout>
-        <div className="flex mt-4 justify-between gap-[16rem] pb-12">
+    <SidebarLayout>
+      <div className="flex mt-4 justify-between gap-[16rem] pb-12">
           <h1 className="text-4xl font-bold">Welcome to your dashboard!</h1>
           <div>
             <CreateDocumentationDialog addProject={addProject} />
@@ -78,8 +78,7 @@ const Dashboard: React.FC = () => {
         </div>
         <Reveal />
         <Cardgrid projects={projects} onCardClick={handleCardClick} />
-      </Layout>
-      {selectedProject && (
+        {selectedProject && (
         <EditViewDialog
           project={selectedProject}
           onClose={handleCloseDialog}
@@ -87,8 +86,6 @@ const Dashboard: React.FC = () => {
           onView={handleView}
         />
       )}
-    </div>
+    </SidebarLayout>
   );
-};
-
-export default Dashboard;
+}

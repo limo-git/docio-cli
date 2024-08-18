@@ -110,7 +110,7 @@ function Sidebar({ onFileSelect, onSave }: SidebarProps) {
         </button>
       </div>
       <div className="pt-4">
-      <Link href={`${pathname}/view`}>
+      <Link href="/view/sample-2">
           <button className="w-40 px-8 py-2 rounded-md border border-black rounded-xl bg-white text-black text-sm hover:shadow-[4px_4px_0px_0px_rgba(0,0,0)] transition duration-200">
             Preview
           </button>

@@ -1,17 +1,32 @@
 "use client";
+
 import "easymde/dist/easymde.min.css";
 import React, { useEffect, useRef, useState } from "react";
 import EasyMDE from "easymde";
 import Sidebar from "@/components/editor-sidenav";
 import SidebarLayout from "@/components/sidebar-layout";
+import { useToast } from "@/components/ui/use-toast";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 const MyComponent: React.FC = () => {
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
   const easyMDERef = useRef<EasyMDE | null>(null);
+  const { toast } = useToast();
   const [currentFile, setCurrentFile] = useState<string>("defaultFile");
   const [fileContents, setFileContents] = useState<{ [key: string]: string }>({
     defaultFile: "Initial content",
   });
+  const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
 
   useEffect(() => {
     let isMounted = true;
@@ -53,25 +68,29 @@ const MyComponent: React.FC = () => {
   const handleSaveFile = async () => {
     const content = fileContents[currentFile];
     
-    console.log('Content of the editor:', content);
-  
     try {
       const response = await fetch('/api/markdown', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ fileName: `${currentFile}`, content }),
+        body: JSON.stringify({ fileName: currentFile, content }),
       });
-  
+
       if (response.ok) {
-        alert('File saved successfully');
+        setIsDialogOpen(true);
       } else {
-        alert('Error saving file');
+        toast({
+          title: "Error",
+          description: "Failed to save file.",
+        });
       }
     } catch (error) {
       console.error('Error saving file:', error);
-      alert('Error saving file');
+      toast({
+        title: "Error",
+        description: "Failed to save file.",
+      });
     }
   };
 
@@ -84,6 +103,19 @@ const MyComponent: React.FC = () => {
           </div>
           <Sidebar onFileSelect={handleFileSelect} onSave={handleSaveFile} />
         </div>
+        <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>File Saved</AlertDialogTitle>
+            </AlertDialogHeader>
+            <AlertDialogDescription>
+              The file has been saved successfully.
+            </AlertDialogDescription>
+            <AlertDialogFooter>
+              <AlertDialogAction onClick={() => setIsDialogOpen(false)}>OK</AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </SidebarLayout>
     </div>
   );

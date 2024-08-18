@@ -9,7 +9,6 @@ import { CreateDocumentationDialog } from '@/components/createDialog';
 import { EditViewDialog } from '@/components/viewDialog';
 import { useSession } from "next-auth/react";
 
-
 export default function DashboardPage() {
   const { data: session, status } = useSession();
   const [projects, setProjects] = useState<{ title: string; description: string; link: string }[]>([]);
@@ -68,22 +67,27 @@ export default function DashboardPage() {
     handleCloseDialog();
   };
 
+  const handleDelete = (title: string) => {
+    setProjects((prevProjects) => prevProjects.filter(project => project.title !== title));
+  };
+
   return (
     <SidebarLayout>
       <div className="flex mt-4 justify-between gap-[16rem] pb-12">
-          <h1 className="text-4xl font-bold">Welcome to your dashboard!</h1>
-          <div>
-            <CreateDocumentationDialog addProject={addProject} />
-          </div>
+        <h1 className="text-4xl font-bold">Welcome to your dashboard!</h1>
+        <div>
+          <CreateDocumentationDialog addProject={addProject} />
         </div>
-        <Reveal />
-        <Cardgrid projects={projects} onCardClick={handleCardClick} />
-        {selectedProject && (
+      </div>
+      <Reveal />
+      <Cardgrid projects={projects} onCardClick={handleCardClick} />
+      {selectedProject && (
         <EditViewDialog
           project={selectedProject}
           onClose={handleCloseDialog}
           onEdit={handleEdit}
           onView={handleView}
+          onDelete={handleDelete}
         />
       )}
     </SidebarLayout>

@@ -52,7 +52,7 @@ const MyComponent: React.FC = () => {
 
   const handleSaveFile = async () => {
     const content = fileContents[currentFile];
-  
+    
     console.log('Content of the editor:', content);
   
     try {
@@ -74,17 +74,16 @@ const MyComponent: React.FC = () => {
       alert('Error saving file');
     }
   };
-  
+
   return (
     <div>
       <SidebarLayout>
-      <div className="flex justify-end">
-        
-        <div className="w-full bg-black border border-white/20">
-          <textarea ref={textAreaRef}></textarea>
+        <div className="flex justify-end">
+          <div className="w-full bg-black border border-white/20">
+            <textarea ref={textAreaRef}></textarea>
+          </div>
+          <Sidebar onFileSelect={handleFileSelect} onSave={handleSaveFile} />
         </div>
-        <Sidebar onFileSelect={handleFileSelect} onSave={handleSaveFile} />
-      </div>
       </SidebarLayout>
     </div>
   );

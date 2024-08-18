@@ -17,12 +17,30 @@ export function DocsSidebarNav({ items }: DocsSidebarNavProps) {
     <div className="sidebar">
       {items.map((item, index) => (
         <div key={index} className={cn("pb-8")}>
-          <h4 className="mb-1 rounded-md px-2 py-1 text-sm font-medium">
-            {item.title}
-          </h4>
-          {/* {item.items ? (
-            <DocsSidebarNavItems items={item.items} pathname={pathname} />
-          ) : null} */}
+          {/* Use Link for top-level items with href */}
+          {item.href ? (
+            <Link
+              href={`/view/${item.href}`}
+              className={cn(
+                "flex-col w-full items-center rounded-md p-2 hover:underline",
+                {
+                  "bg-muted": pathname === `/view/${item.href}`,
+                }
+              )}
+            >
+              {item.title}
+            </Link>
+          ) : (
+            <>
+              <h4 className="mb-1 rounded-md px-2 py-1 text-sm font-medium">
+                {item.title}
+              </h4>
+              {/* Render nested items if available */}
+              {item.items && (
+                <DocsSidebarNavItems items={item.items} pathname={pathname} />
+              )}
+            </>
+          )}
         </div>
       ))}
     </div>
@@ -39,26 +57,29 @@ export function DocsSidebarNavItems({
   pathname,
 }: DocsSidebarNavItemsProps) {
   return items?.length ? (
-    <div className="sidebar-items" >
+    <div className="sidebar-items">
       {items.map((item, index) =>
         !item.disabled && item.href ? (
           <Link
             key={index}
-            href={item.href}
+            href="#"
             className={cn(
               "flex-col w-full items-center rounded-md p-2 hover:underline",
               {
-                "bg-muted": pathname === item.href,
+                "bg-muted": pathname === `/view/${item.href}`,
               }
             )}
-            target={item.external ? "_blank" : ""}
             rel={item.external ? "noreferrer" : ""}
-            style={{display:"flex", flexDirection:"column"}}
+            style={{ display: "flex", flexDirection: "column" }}
           >
             {item.title}
           </Link>
         ) : (
-          <span style={{display:"flex", flexDirection:"column"}} className="flex w-full cursor-not-allowed items-center rounded-md p-2 opacity-60">
+          <span
+            key={index}
+            style={{ display: "flex", flexDirection: "column" }}
+            className="flex w-full items-center rounded-md p-2 opacity-60"
+          >
             {item.title}
           </span>
         )

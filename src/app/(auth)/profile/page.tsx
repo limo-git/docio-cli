@@ -74,7 +74,7 @@ const Profile: React.FC = () => {
     }
     handleFollowClick();
   };
-
+  
   const handleFollowClick = () => {
     setIsFollowing(prev => !prev);
   };

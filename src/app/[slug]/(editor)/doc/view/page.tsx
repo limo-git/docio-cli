@@ -7,7 +7,6 @@
   import { SidebarNavItem } from '../../../../../types/index.s';
   import IntroNav from '../../../../../components/intronav';
   import { parseMarkdownHeadings } from '../../../../../lib/parseHeading';
-  import Navbar from '@/components/navbar';
   import SidebarLayout from '@/components/sidebar-layout';
   interface PageProps {
     params: {
@@ -32,19 +31,19 @@
 
     useEffect(() => {
       const fetchDoc = async () => {
+        console.log('Fetching document for slug:', params.slug);
         try {
           const fetchedDoc = await getDocFromParams(params.slug);
+          console.log('Fetched document:', fetchedDoc);
           if (!fetchedDoc) {
             throw new Error('Document not found');
           }
           setDoc(fetchedDoc);
-          setMarkdownContent(fetchedDoc.body.code); 
-
-          
+          setMarkdownContent(fetchedDoc.body.code);
           const headings = parseMarkdownHeadings(fetchedDoc.body.raw);
           const sidebarHeadItems = headings.map((heading) => ({
             title: heading.text,
-            href: `#${heading.text.toLowerCase().replace(/\s+/g, '-')}`,
+            href: `${heading.text.toLowerCase().replace(/\s+/g, '-')}`,
           }));
           setSidebarHead(sidebarHeadItems);
         } catch (error) {
@@ -55,10 +54,10 @@
           setLoading(false);
         }
       };
-
+    
       fetchDoc();
     }, [params.slug]);
-
+    
     if (loading || !doc) {
       return <div>Loading...</div>;
     }

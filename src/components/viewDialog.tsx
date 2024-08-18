@@ -18,9 +18,8 @@ interface EditViewDialogProps {
 
 export const EditViewDialog: React.FC<EditViewDialogProps> = ({ project, onClose, onView }) => {
   const handleEdit = () => {
-    // Implement your edit logic here
     console.log('Editing:', project.title);
-    onClose(); // Close the dialog after editing
+    onClose(); 
   };
 
   return (
@@ -41,9 +40,11 @@ export const EditViewDialog: React.FC<EditViewDialogProps> = ({ project, onClose
               Edit
             </button>
           </Link>
+          <Link href="/view/sample">
           <button className="px-4 py-2 rounded-xl border border-black bg-white text-black text-sm hover:shadow-[4px_4px_0px_0px_rgba(0,0,0)] transition duration-200" onClick={onView}>
             View
           </button>
+          </Link>
         </DialogFooter>
       </DialogContent>
     </Dialog>

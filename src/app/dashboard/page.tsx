@@ -11,7 +11,7 @@ import { useSession } from "next-auth/react";
 
 
 export default function DashboardPage() {
-    const { data: session, status } = useSession();
+  const { data: session, status } = useSession();
   const [projects, setProjects] = useState<{ title: string; description: string; link: string }[]>([]);
   const [selectedProject, setSelectedProject] = useState<{ title: string; description: string; link: string } | null>(null);
 

@@ -9,19 +9,19 @@ export type NavItem = {
 export type MainNavItem = NavItem
 
 export type SidebarNavItem = {
-  title: string
-  disabled?: boolean
-  external?: boolean
+  title: string;
+  disabled?: boolean;
+  external?: boolean;
 } & (
   | {
-      href: string
-      items?: never
+      href: string;
+      items?: never; 
     }
   | {
-      href?: string
-    //   items: NavLink[]
+      href?: never; 
+      items: SidebarNavItem[]; 
     }
-)
+);
 
 export type SiteConfig = {
   name: string
